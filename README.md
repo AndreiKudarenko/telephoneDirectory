@@ -1,1 +1,1 @@
-# telephoneDirectory
+# telephoneDirectory MVC application
