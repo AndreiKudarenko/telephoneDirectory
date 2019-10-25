@@ -1,10 +1,10 @@
 package com.epam.springadvanced.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
+@Data
 public class PhoneNumberData {
+    public String number;
+    public ProviderCompanyData providerCompanyData;
 
 }

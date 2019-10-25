@@ -1,5 +1,8 @@
 package com.epam.springadvanced.dto;
 
-public class ProviderCompanyData {
+import lombok.Data;
 
+@Data
+public class ProviderCompanyData {
+    public String name;
 }

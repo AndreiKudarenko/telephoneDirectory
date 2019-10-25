@@ -1,12 +1,6 @@
 package com.epam.springadvanced.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 import lombok.Data;
@@ -23,18 +17,14 @@ public class SubscriberModel {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "firstName", length = 255, nullable = false)
-    private String firstName;
+    @Column(name = "name", length = 255, nullable = false)
+    private String name;
 
-    @Column(name = "secondName", length = 255, nullable = false)
-    private String secondName;
-
-    @OneToMany(mappedBy = "subscriber", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subscriberModel", cascade = CascadeType.PERSIST)
     private Set<PhoneNumberModel> phoneNumberModel;
 
-    public SubscriberModel(String firstName, String secondName, Set<PhoneNumberModel> phoneNumberModel) {
-        this.firstName = firstName;
-        this.secondName = secondName;
+    public SubscriberModel(String name, Set<PhoneNumberModel> phoneNumberModel) {
+        this.name = name;
         this.phoneNumberModel = phoneNumberModel;
     }
 }

@@ -1,12 +1,15 @@
 package com.epam.springadvanced.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
+@Table(name = "PROVIDER_COMPANY")
+@Data
+@NoArgsConstructor
 public class ProviderCompanyModel {
 
     @Id
@@ -17,5 +20,7 @@ public class ProviderCompanyModel {
     @Column(name = "companyName", length = 255, nullable = false)
     private String companyName;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subscriberModel", cascade = CascadeType.PERSIST)
+    private Set<PhoneNumberModel> phoneNumberModel;
 
 }

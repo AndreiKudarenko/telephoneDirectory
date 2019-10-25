@@ -32,17 +32,11 @@ public class HelloController {
 
     @RequestMapping("/")
     @ResponseBody
-    public String hello() {
-        return "Hello World!";
-    }
-
-    @RequestMapping("/")
-    @ResponseBody
     public SubscriberModel post() {
         HashSet phoneNumbers = new HashSet();
         PhoneNumberModel number = phoneNumberRepository.save(new PhoneNumberModel("11111111"));
         phoneNumbers.add(number);
-        int id = subscriberRepository.save(new SubscriberModel("Andrei", "Kudarenko", phoneNumbers)).getId();
+        int id = subscriberRepository.save(new SubscriberModel("Andrei Kudarenko", phoneNumbers)).getId();
         return subscriberRepository.findById(id).get();
     }
 
