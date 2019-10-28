@@ -1,13 +1,15 @@
 package com.epam.springadvanced.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "SUBSCRIBER")
 @Data
 @NoArgsConstructor
 public class SubscriberModel {
@@ -20,10 +22,10 @@ public class SubscriberModel {
     @Column(name = "name", length = 255, nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subscriberModel", cascade = CascadeType.PERSIST)
-    private Set<PhoneNumberModel> phoneNumberModel;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<PhoneNumberModel> phoneNumberModel = new ArrayList<>();
 
-    public SubscriberModel(String name, Set<PhoneNumberModel> phoneNumberModel) {
+    public SubscriberModel(String name, List<PhoneNumberModel> phoneNumberModel) {
         this.name = name;
         this.phoneNumberModel = phoneNumberModel;
     }

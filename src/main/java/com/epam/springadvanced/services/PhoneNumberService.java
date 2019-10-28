@@ -1,6 +1,7 @@
 package com.epam.springadvanced.services;
 
 import com.epam.springadvanced.entities.PhoneNumberModel;
+import com.epam.springadvanced.entities.SubscriberModel;
 import com.epam.springadvanced.repositories.PhoneNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,12 @@ public class PhoneNumberService {
     }
 
     public List<PhoneNumberModel> getAllNumbers() {
-        List<PhoneNumberModel> number = phoneNumberRepository.findAll();
-        return number;
+        List<PhoneNumberModel> numbers = phoneNumberRepository.findAll();
+        return numbers;
+    }
+
+    public List<PhoneNumberModel> getAllSubscriberNumbers(SubscriberModel model) {
+        List<PhoneNumberModel> numbers = phoneNumberRepository.findBySubscriberModel(model);
+        return numbers;
     }
 }

@@ -25,6 +25,7 @@ public class PhoneNumberConverter implements Converter<PhoneNumberData, PhoneNum
     public PhoneNumberData convertToData(PhoneNumberModel model) {
         PhoneNumberData data = new PhoneNumberData();
         data.setNumber(model.getNumber());
+        data.setProviderCompanyData(providerCompanyConverter.convertToData(model.getProviderCompanyModel()));
         return data;
     }
 

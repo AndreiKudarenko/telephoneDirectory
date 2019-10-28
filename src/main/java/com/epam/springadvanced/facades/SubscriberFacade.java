@@ -1,8 +1,11 @@
 package com.epam.springadvanced.facades;
 
+import com.epam.springadvanced.converters.PhoneNumberConverter;
 import com.epam.springadvanced.converters.SubscriberConverter;
 import com.epam.springadvanced.dto.SubscriberData;
+import com.epam.springadvanced.entities.PhoneNumberModel;
 import com.epam.springadvanced.entities.SubscriberModel;
+import com.epam.springadvanced.services.PhoneNumberService;
 import com.epam.springadvanced.services.SubscriberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,19 @@ public class SubscriberFacade {
     @Autowired
     private SubscriberConverter converter;
     @Autowired
+    private PhoneNumberConverter phoneNumberConverter;
+    @Autowired
     private SubscriberService subscriberService;
+    @Autowired
+    private PhoneNumberService phoneNumberService;
 
     public SubscriberModel saveSubscriber(SubscriberData subscriberData) {
         SubscriberModel model = converter.convertToModel(subscriberData);
+        List<PhoneNumberModel> numbers = subscriberData.getNumbers()
+                .stream()
+                .map(number -> phoneNumberConverter.convertToModel(number))
+                .collect(Collectors.toList());
+        model.setPhoneNumberModel(numbers);
         return subscriberService.saveSubscriber(model);
     }
 

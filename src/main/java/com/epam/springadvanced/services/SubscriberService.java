@@ -26,7 +26,7 @@ public class SubscriberService {
     public List<SubscriberModel> getAllSubscribers() {
         List<SubscriberModel> subscribers = subscriberRepository.findAll();
         subscribers.forEach(sub -> {
-            Set<PhoneNumberModel> bySubscriberModelId = phoneNumberRepository.findBySubscriberModelId(sub.getId());
+            List<PhoneNumberModel> bySubscriberModelId = phoneNumberRepository.findBySubscriberModel(sub);
             sub.setPhoneNumberModel(bySubscriberModelId);
         });
         return subscribers;

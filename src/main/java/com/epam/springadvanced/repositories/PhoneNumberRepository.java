@@ -1,5 +1,6 @@
 package com.epam.springadvanced.repositories;
 
+import com.epam.springadvanced.entities.SubscriberModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,5 @@ import java.util.Set;
 
 @Repository
 public interface PhoneNumberRepository extends JpaRepository<PhoneNumberModel, Integer> {
-    Set<PhoneNumberModel> findBySubscriberModelId(int SubId);
+    List<PhoneNumberModel> findBySubscriberModel(SubscriberModel model);
 }

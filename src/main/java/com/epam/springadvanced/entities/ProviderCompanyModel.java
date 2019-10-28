@@ -4,10 +4,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "PROVIDER_COMPANY")
 @Data
 @NoArgsConstructor
 public class ProviderCompanyModel {
@@ -20,7 +22,7 @@ public class ProviderCompanyModel {
     @Column(name = "companyName", length = 255, nullable = false)
     private String companyName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subscriberModel", cascade = CascadeType.PERSIST)
-    private Set<PhoneNumberModel> phoneNumberModel;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<PhoneNumberModel> phoneNumberModel = new ArrayList<>();
 
 }

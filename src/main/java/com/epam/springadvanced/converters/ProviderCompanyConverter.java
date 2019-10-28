@@ -15,6 +15,8 @@ public class ProviderCompanyConverter implements Converter<ProviderCompanyData, 
 
     @Override
     public ProviderCompanyData convertToData(ProviderCompanyModel model) {
-        return null;
+        ProviderCompanyData data = new ProviderCompanyData();
+        data.setName(model.getCompanyName());
+        return data;
     }
 }

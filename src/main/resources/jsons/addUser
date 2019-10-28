@@ -1,0 +1,21 @@
+{
+
+"name":"Andrei",
+"numbers":
+[
+	{
+"number": "1111",
+"providerCompanyData":
+{
+"name": "AAA"
+}
+	},
+	{
+	"number": "2222",
+	"providerCompanyData":
+	{
+		"name": "BBB"
+	}
+	}
+]
+}

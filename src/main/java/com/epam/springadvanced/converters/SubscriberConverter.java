@@ -21,9 +21,9 @@ public class SubscriberConverter implements Converter<SubscriberData, Subscriber
         SubscriberModel model = new SubscriberModel();
         model.setName(data.getName());
         List<PhoneNumberData> phoneNumberData = data.getNumbers();
-        Set<PhoneNumberModel> phoneNumberModel = phoneNumberData.stream()
+        List<PhoneNumberModel> phoneNumberModel = phoneNumberData.stream()
                 .map(numberData -> phoneNumberConverter.convertToModel(numberData))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
         model.setPhoneNumberModel(phoneNumberModel);
 
         return model;
@@ -32,13 +32,10 @@ public class SubscriberConverter implements Converter<SubscriberData, Subscriber
     public SubscriberData convertToData(SubscriberModel model) {
         SubscriberData data = new SubscriberData();
         data.setName(model.getName());
-
-        List<PhoneNumberData> numbers = model.getPhoneNumberModel()
-                .stream()
-                .map(number -> phoneNumberConverter.convertToData(number))
-                .collect(Collectors.toList());
-
-        data.setNumbers(numbers);
+        data.setNumbers(model.getPhoneNumberModel()
+        .stream()
+        .map(number -> phoneNumberConverter.convertToData(number))
+                .collect(Collectors.toList()));
         return data;
     }
 }
