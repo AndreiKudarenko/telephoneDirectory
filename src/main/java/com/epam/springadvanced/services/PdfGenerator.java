@@ -1,5 +1,7 @@
 package com.epam.springadvanced.services;
 
+import com.epam.springadvanced.dto.PhoneNumberData;
+import com.epam.springadvanced.dto.SubscriberData;
 import com.epam.springadvanced.entities.SubscriberModel;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -19,74 +21,65 @@ import java.util.List;
 @Service
 public class PdfGenerator {
 
-    public ByteArrayInputStream convertSubscriberToPdf(List<SubscriberModel> subscriberModels) throws DocumentException {
+    public ByteArrayInputStream convertSubscriberToPdf(List<SubscriberData> subscribers) throws DocumentException {
+        PdfPTable table = createSubscriberTable();
+        for (SubscriberData sub : subscribers) {
+            fillTable(sub, table);
+        }
+        ByteArrayOutputStream out = getByteArrayOutputStream(table);
+        return new ByteArrayInputStream(out.toByteArray());
+    }
 
+    public ByteArrayInputStream convertSubscriberToPdf(SubscriberData subscriber) throws DocumentException {
+        PdfPTable table = createSubscriberTable();
+        fillTable(subscriber, table);
+        ByteArrayOutputStream out = getByteArrayOutputStream(table);
+        return new ByteArrayInputStream(out.toByteArray());
+    }
+
+    private ByteArrayOutputStream getByteArrayOutputStream(PdfPTable table) throws DocumentException {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        PdfPTable table = new PdfPTable(4);
-        table.setWidthPercentage(100);
-        //table.setWidths(new int[]{1, 3, 3, 3, 3});
-
-        Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-
-        PdfPCell hcell;
-        hcell = new PdfPCell(new Phrase("Id", headFont));
-        hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(hcell);
-
-        hcell = new PdfPCell(new Phrase("FirstName", headFont));
-        hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(hcell);
-
-        hcell = new PdfPCell(new Phrase("SecondName", headFont));
-        hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(hcell);
-
-        hcell = new PdfPCell(new Phrase("Phone", headFont));
-        hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(hcell);
-
-        hcell = new PdfPCell(new Phrase("ProviderCompany", headFont));
-        hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(hcell);
-
-        for (SubscriberModel sub : subscriberModels) {
-
-            PdfPCell cell;
-
-            cell = new PdfPCell(new Phrase(sub.getId()));
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(sub.getName()));
-            cell.setPaddingLeft(5);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            table.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(String.valueOf(sub.getPhoneNumberModel())));
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            cell.setPaddingRight(5);
-            table.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(String.valueOf(sub.getPhoneNumberModel())));
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            cell.setPaddingRight(5);
-            table.addCell(cell);
-
-        }
-
         PdfWriter.getInstance(document, out);
         document.open();
         document.add(table);
-
         document.close();
+        return out;
+    }
 
-        return new ByteArrayInputStream(out.toByteArray());
+    private PdfPTable createSubscriberTable() {
+
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+
+        addColumn("Name", table);
+        addColumn("Phone - ProviderCompany", table);
+        return table;
+    }
+
+    private void addColumn(String name, PdfPTable table) {
+        PdfPCell hcell;
+        Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        hcell = new PdfPCell(new Phrase(name, headFont));
+        hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(hcell);
+    }
+
+    private void fillTable(SubscriberData subscriber, PdfPTable table) {
+        PdfPCell cell;
+        cell = new PdfPCell(new Phrase(subscriber.getName()));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setPaddingLeft(5);
+        table.addCell(cell);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        subscriber.getNumbers().forEach(num -> stringBuilder.append(num.getNumber() + " - " + num.getProviderCompanyData().getName() + "\n"));
+        cell = new PdfPCell(new Phrase(stringBuilder.toString()));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        cell.setPaddingRight(5);
+        table.addCell(cell);
     }
 }
 

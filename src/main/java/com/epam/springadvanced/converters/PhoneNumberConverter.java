@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class PhoneNumberConverter implements Converter<PhoneNumberData, PhoneNumberModel>{
 
     @Autowired
-    ProviderCompanyConverter providerCompanyConverter;
+    private Converter<ProviderCompanyData, ProviderCompanyModel> providerCompanyConverter;
 
     public PhoneNumberModel convertToModel(PhoneNumberData data) {
         PhoneNumberModel model = new PhoneNumberModel();

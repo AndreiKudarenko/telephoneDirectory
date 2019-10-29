@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class PhoneNumberData {
-    public String number;
-    public ProviderCompanyData providerCompanyData;
-
+    private String number;
+    private ProviderCompanyData providerCompanyData;
 }

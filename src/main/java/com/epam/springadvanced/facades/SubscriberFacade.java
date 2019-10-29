@@ -1,7 +1,7 @@
 package com.epam.springadvanced.facades;
 
-import com.epam.springadvanced.converters.PhoneNumberConverter;
-import com.epam.springadvanced.converters.SubscriberConverter;
+import com.epam.springadvanced.converters.Converter;
+import com.epam.springadvanced.dto.PhoneNumberData;
 import com.epam.springadvanced.dto.SubscriberData;
 import com.epam.springadvanced.entities.PhoneNumberModel;
 import com.epam.springadvanced.entities.SubscriberModel;
@@ -17,35 +17,46 @@ import java.util.stream.Collectors;
 public class SubscriberFacade {
 
     @Autowired
-    private SubscriberConverter converter;
+    private Converter<SubscriberData, SubscriberModel> converter;
     @Autowired
-    private PhoneNumberConverter phoneNumberConverter;
+    private Converter<PhoneNumberData, PhoneNumberModel> phoneNumberConverter;
     @Autowired
     private SubscriberService subscriberService;
     @Autowired
     private PhoneNumberService phoneNumberService;
 
-    public SubscriberModel saveSubscriber(SubscriberData subscriberData) {
-        SubscriberModel model = converter.convertToModel(subscriberData);
-        List<PhoneNumberModel> numbers = subscriberData.getNumbers()
-                .stream()
-                .map(number -> phoneNumberConverter.convertToModel(number))
-                .collect(Collectors.toList());
-        model.setPhoneNumberModel(numbers);
-        return subscriberService.saveSubscriber(model);
+    public void saveSubscriber(List<SubscriberData> subscriberData) {
+        subscriberData.forEach(data -> {
+            SubscriberModel model = converter.convertToModel(data);
+            List<PhoneNumberModel> numbers = data.getNumbers()
+                    .stream()
+                    .map(number -> phoneNumberConverter.convertToModel(number))
+                    .collect(Collectors.toList());
+            model.setPhoneNumberModel(numbers);
+            numbers.forEach(number -> number.setSubscriberModel(model));
+            subscriberService.saveSubscriber(model);
+        });
     }
 
     public List<SubscriberData> getAllSubscribers() {
         List<SubscriberModel> allSubscribers = subscriberService.getAllSubscribers();
-        List<SubscriberData> subsData = allSubscribers.stream()
+        allSubscribers.forEach(subscriberModel -> {
+            List<PhoneNumberModel> allSubscriberNumbers = phoneNumberService.getAllSubscriberNumbers(subscriberModel);
+            subscriberModel.setPhoneNumberModel(allSubscriberNumbers);
+        });
+
+        List<SubscriberData> subscriberData = allSubscribers.stream()
                 .map(sub -> converter.convertToData(sub))
                 .collect(Collectors.toList());
-        return subsData;
+        return subscriberData;
     }
 
     public SubscriberData getSubscriberById(int id) {
-        SubscriberModel subscriberById = subscriberService.getSubscriberById(id);
-        SubscriberData subscriberData = converter.convertToData(subscriberById);
+        SubscriberModel subscriberModel = subscriberService.getSubscriberById(id);
+        List<PhoneNumberModel> allSubscriberNumbers = phoneNumberService.getAllSubscriberNumbers(subscriberModel);
+        subscriberModel.setPhoneNumberModel(allSubscriberNumbers);
+        subscriberModel.setId(id);
+        SubscriberData subscriberData = converter.convertToData(subscriberModel);
         return subscriberData;
     }
 }

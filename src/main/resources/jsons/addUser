@@ -1,21 +1,42 @@
+[
 {
-
 "name":"Andrei",
 "numbers":
-[
-	{
+    [
+	    {
 "number": "1111",
 "providerCompanyData":
-{
+            {
 "name": "AAA"
-}
-	},
-	{
+            }
+	    },
+	    {
 	"number": "2222",
 	"providerCompanyData":
-	{
+	        {
 		"name": "BBB"
-	}
-	}
+	        }
+	    }
+    ]
+    },
+    {
+"name":"Petr",
+"numbers":
+    [
+	    {
+"number": "3333",
+"providerCompanyData":
+            {
+"name": "AAA"
+            }
+	    },
+	    {
+	"number": "4444",
+	"providerCompanyData":
+	        {
+		"name": "BBB"
+	        }
+	    }
+    ]
+    }
 ]
-}

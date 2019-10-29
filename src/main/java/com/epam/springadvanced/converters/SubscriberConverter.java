@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-
 
 @Service
 public class SubscriberConverter implements Converter<SubscriberData, SubscriberModel> {
     @Autowired
-    private PhoneNumberConverter phoneNumberConverter;
+    private Converter<PhoneNumberData, PhoneNumberModel> phoneNumberConverter;
 
     public SubscriberModel convertToModel(SubscriberData data) {
         SubscriberModel model = new SubscriberModel();
@@ -31,10 +29,11 @@ public class SubscriberConverter implements Converter<SubscriberData, Subscriber
 
     public SubscriberData convertToData(SubscriberModel model) {
         SubscriberData data = new SubscriberData();
+        data.setId(model.getId());
         data.setName(model.getName());
         data.setNumbers(model.getPhoneNumberModel()
-        .stream()
-        .map(number -> phoneNumberConverter.convertToData(number))
+                .stream()
+                .map(number -> phoneNumberConverter.convertToData(number))
                 .collect(Collectors.toList()));
         return data;
     }

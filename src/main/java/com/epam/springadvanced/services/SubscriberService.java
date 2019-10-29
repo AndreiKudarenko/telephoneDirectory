@@ -1,6 +1,5 @@
 package com.epam.springadvanced.services;
 
-import com.epam.springadvanced.entities.PhoneNumberModel;
 import com.epam.springadvanced.entities.SubscriberModel;
 import com.epam.springadvanced.repositories.PhoneNumberRepository;
 import com.epam.springadvanced.repositories.SubscriberRepository;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class SubscriberService {
@@ -25,10 +23,6 @@ public class SubscriberService {
 
     public List<SubscriberModel> getAllSubscribers() {
         List<SubscriberModel> subscribers = subscriberRepository.findAll();
-        subscribers.forEach(sub -> {
-            List<PhoneNumberModel> bySubscriberModelId = phoneNumberRepository.findBySubscriberModel(sub);
-            sub.setPhoneNumberModel(bySubscriberModelId);
-        });
         return subscribers;
     }
 

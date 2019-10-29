@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class SubscriberData {
-    public String name;
-    public List<PhoneNumberData> numbers;
+    private int id;
+    private String name;
+    private List<PhoneNumberData> numbers;
 }

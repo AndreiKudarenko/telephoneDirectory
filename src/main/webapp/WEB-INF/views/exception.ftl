@@ -1,10 +1,12 @@
 <html>
     <head>
-        <title>exception handler page</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div>
+        Exception handler page
+        </div>
     </head>
     <body>
-        <p>Some exception has occurred</p>
+    <field>
+      Message=${message}
+    </field>
     </body>
 </html>

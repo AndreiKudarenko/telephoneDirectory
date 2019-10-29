@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class PhoneNumberModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
 
@@ -27,7 +27,4 @@ public class PhoneNumberModel {
     @JoinColumn(name = "providerCompanyModel_id")
     private ProviderCompanyModel providerCompanyModel;
 
-    public PhoneNumberModel(String number) {
-        this.number = number;
-    }
 }

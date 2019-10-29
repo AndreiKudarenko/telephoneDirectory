@@ -1,6 +1,6 @@
 package com.epam.springadvanced.facades;
 
-import com.epam.springadvanced.converters.PhoneNumberConverter;
+import com.epam.springadvanced.converters.Converter;
 import com.epam.springadvanced.dto.PhoneNumberData;
 import com.epam.springadvanced.entities.PhoneNumberModel;
 import com.epam.springadvanced.services.PhoneNumberService;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class PhoneNumberFacade {
 
     @Autowired
-    private PhoneNumberConverter converter;
+    private Converter<PhoneNumberData, PhoneNumberModel> converter;
     @Autowired
     private PhoneNumberService phoneNumberService;
 
