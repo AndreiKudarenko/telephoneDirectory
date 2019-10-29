@@ -54,11 +54,11 @@ public class SubscriberController {
                 .body(new InputStreamResource(bis));
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping("/get")
     @ResponseBody
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<InputStreamResource> getById(@PathVariable int id) throws DocumentException {
-        SubscriberData sub = subscriberFacade.getSubscriberById(id);
+    public ResponseEntity<InputStreamResource> getById(@RequestParam String id) throws DocumentException {
+        SubscriberData sub = subscriberFacade.getSubscriberById(Integer.valueOf(id));
         ByteArrayInputStream bis = pdfGenerator.convertSubscriberToPdf(sub);
         return ResponseEntity
                 .ok()

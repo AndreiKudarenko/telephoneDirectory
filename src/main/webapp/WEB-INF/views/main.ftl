@@ -13,11 +13,11 @@
                     <form method="GET" action="/addSubscriber">
                            <input type="submit" value="addSubscribers"> Press to add subscribers!
                     </form>
-
-                    <form method="GET" action="/subscribers/{id}}">
-                                               <input type="int">
-                                               <input type="submit" value="get"> Get subscriber by id!
-                                        </form>
+                    <form method="GET" action="/subscribers/get">
+                    <label for="id">Id:</label>
+                                <input id="id" type="text" name="id">
+                        <input type="submit" value="get"> Get subscriber by id!
+                    </form>
               </div>
           </body>
 
